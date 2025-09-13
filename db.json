@@ -1,0 +1,121 @@
+{
+  "student": [
+    {
+      "id": "101",
+      "name": "Camila",
+      "lastName": "Ríos",
+      "bornPlace": "Bello",
+      "degree": "Ingeniería de Sistemas",
+      "place": "MEDELLIN",
+      "scoreAdmision": 89
+    },
+    {
+      "id": "202",
+      "name": "Andrés",
+      "lastName": "García",
+      "bornPlace": "Envigado",
+      "degree": "Ingeniería Civil",
+      "place": "ANDES",
+      "scoreAdmision": 77
+    },
+    {
+      "id": "303",
+      "name": "Valentina",
+      "lastName": "López",
+      "bornPlace": "Itagüí",
+      "degree": "Ingeniería Química",
+      "place": "CAUCASIA",
+      "scoreAdmision": 92
+    },
+    {
+      "id": "404",
+      "name": "Julián",
+      "lastName": "Martínez",
+      "bornPlace": "Rionegro",
+      "degree": "Ingeniería Eléctrica",
+      "place": "PUERTO BERRIO",
+      "scoreAdmision": 81
+    },
+    {
+      "id": "505",
+      "name": "Sofía",
+      "lastName": "Mejía",
+      "bornPlace": "La Ceja",
+      "degree": "Ingeniería Industrial",
+      "place": "MEDELLIN",
+      "scoreAdmision": 95
+    },
+    {
+      "id": "606",
+      "name": "Felipe",
+      "lastName": "Restrepo",
+      "bornPlace": "Marinilla",
+      "degree": "Ingeniería Mecánica",
+      "place": "TURBO",
+      "scoreAdmision": 73
+    },
+    {
+      "id": "707",
+      "name": "Daniela",
+      "lastName": "Cano",
+      "bornPlace": "Copacabana",
+      "degree": "Ingeniería Ambiental",
+      "place": "SANTA FE DE ANTIOQUIA",
+      "scoreAdmision": 88
+    },
+    {
+      "id": "808",
+      "name": "Santiago",
+      "lastName": "Torres",
+      "bornPlace": "Apartadó",
+      "degree": "Ingeniería de Telecomunicaciones",
+      "place": "CAREPA",
+      "scoreAdmision": 79
+    },
+    {
+      "id": "909",
+      "name": "Mariana",
+      "lastName": "Ospina",
+      "bornPlace": "Santa Fe de Antioquia",
+      "degree": "Ingeniería Geológica",
+      "place": "MEDELLIN",
+      "scoreAdmision": 91
+    },
+    {
+      "id": "150",
+      "name": "Esteban",
+      "lastName": "Zapata",
+      "bornPlace": "Turbo",
+      "degree": "Ingeniería de Materiales",
+      "place": "TURBO",
+      "scoreAdmision": 84
+    },
+    {
+      "id": "10",
+      "name": "Camilo",
+      "lastName": "Perez",
+      "bornPlace": "PR",
+      "degree": "Ingeniería Industrial",
+      "place": "TURBO",
+      "scoreAdmision": 70
+    },
+    {
+      "id": "300",
+      "name": "fruna",
+      "lastName": "hermosa",
+      "bornPlace": "bello",
+      "degree": "Bioingeniería",
+      "place": "MEDELLIN",
+      "scoreAdmision": 90
+    },
+    {
+      "id": "400",
+      "name": "viggo",
+      "lastName": "perrito",
+      "bornPlace": "bello",
+      "degree": "Ingeniería de Telecomunicaciones",
+      "place": "CARMEN_DE_VIBORAL",
+      "scoreAdmision": 65
+    }
+  ]
+}
