@@ -223,6 +223,50 @@ const Navigation = {
     hideAllSections() {
         const sections = document.querySelectorAll('.form-section');
         sections.forEach(section => section.classList.remove('active'));
+    },
+
+    /**
+     * Muestra el modal de éxito de registro
+     * @function
+     */
+    showSuccessModal() {
+        console.log('✅ Mostrando modal de registro exitoso');
+        const modal = document.getElementById('successModal');
+        modal.style.display = 'block';
+    },
+
+    /**
+     * Cierra el modal de éxito de registro y regresa a pantalla principal
+     * @function
+     */
+    closeSuccessModal() {
+        console.log('❌ Cerrando modal de registro exitoso y regresando a pantalla principal');
+        const modal = document.getElementById('successModal');
+        modal.style.display = 'none';
+        // Regresar a pantalla principal después de cerrar el modal
+        setTimeout(() => {
+            Navigation.showMainScreen();
+        }, 300);
+    },
+
+    /**
+     * Muestra el modal de éxito de eliminación
+     * @function
+     */
+    showDeleteSuccessModal() {
+        console.log('🗑️ Mostrando modal de eliminación exitosa');
+        const modal = document.getElementById('deleteSuccessModal');
+        modal.style.display = 'block';
+    },
+
+    /**
+     * Cierra el modal de éxito de eliminación
+     * @function
+     */
+    closeDeleteSuccessModal() {
+        console.log('❌ Cerrando modal de eliminación exitosa');
+        const modal = document.getElementById('deleteSuccessModal');
+        modal.style.display = 'none';
     }
 };
 
@@ -231,6 +275,10 @@ const showMainScreen = () => Navigation.showMainScreen();
 const showRegistroForm = () => Navigation.showRegistroForm();
 const showConsultaModal = () => Navigation.showConsultaModal();
 const closeModal = () => Navigation.closeModal();
+const showSuccessModal = () => Navigation.showSuccessModal();
+const closeSuccessModal = () => Navigation.closeSuccessModal();
+const showDeleteSuccessModal = () => Navigation.showDeleteSuccessModal();
+const closeDeleteSuccessModal = () => Navigation.closeDeleteSuccessModal();
 
 // ===============================================
 // SISTEMA DE VALIDACIÓN Y GESTIÓN DE FORMULARIOS
@@ -603,13 +651,8 @@ const StudentController = {
             
             // 5. Mostrar éxito y resetear
             console.log('✅ Registro completado exitosamente');
-            UiManager.showAlert('✅ Estudiante registrado exitosamente', 'success');
+            Navigation.showSuccessModal();
             FormManager.resetForm();
-            
-            // 6. Regresar a pantalla principal después de un delay
-            setTimeout(() => {
-                Navigation.showMainScreen();
-            }, CONFIG.SUCCESS_REDIRECT_DELAY);
             
         } catch (error) {
             console.error('❌ Error en registro:', error);
@@ -677,7 +720,7 @@ const StudentController = {
             await ApiService.eliminarEstudiantePorId(id);
             
             console.log('✅ Eliminación completada exitosamente');
-            UiManager.showAlert('✅ Estudiante eliminado exitosamente', 'success');
+            Navigation.showDeleteSuccessModal();
             Navigation.closeModal();
             
         } catch (error) {
