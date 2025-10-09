@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Estudiantes - SINJA</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Consulta de Estudiantes</h1>
+            <p>Sistema informativo del nivel de los jóvenes admitidos</p>
+            <p>Facultad de ingeniería</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Botón de volver -->
+            <div style="margin-bottom: 30px;">
+                <button class="back-btn" onclick="window.location.href='index.html'">
+                    ← Volver al Inicio
+                </button>
+            </div>
+
+            <!-- Contenido de Consulta -->
+            <div class="consulta-content">
+                <!-- Búsqueda por ID -->
+                <div class="search-section">
+                    <h4>🔍 Buscar por ID</h4>
+                    <input type="text" id="consultaId" placeholder="Ingrese el ID a buscar">
+                    <button class="submit-btn" onclick="buscarPersona()">🔍 BUSCAR</button>
+                </div>
+
+                <!-- Búsqueda por Campus -->
+                <div class="search-section">
+                    <h4>🏫 Consultar por Campus</h4>
+                    <select id="consultaCampus">
+                        <option value="">Seleccione un campus</option>
+                        <option value="MEDELLIN">Medellín</option>
+                        <option value="APARTADO">Apartadó</option>
+                        <option value="ANDES">Andes</option>
+                        <option value="CAUCASIA">Caucasia</option>
+                        <option value="CARMEN_DE_VIBORAL">Carmen de Viboral</option>
+                        <option value="CAREPA">Carepa</option>
+                        <option value="ENVIGADO">Envigado</option>
+                        <option value="PUERTO_BERRIO">Puerto Berrío</option>
+                        <option value="SANTA_FE_ANTIOQUIA">Santa Fe de Antioquia</option>
+                        <option value="TURBO">Turbo</option>
+                    </select>
+                    <button class="submit-btn" onclick="buscarPorCampus()" style="background: #27ae60;">📋 CONSULTAR</button>
+                </div>
+
+                <div class="loading" id="consultaLoading">
+                    <div class="spinner"></div>
+                    <p>Buscando...</p>
+                </div>
+
+                <div id="resultadoConsulta"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Éxito de Eliminación -->
+    <div id="deleteSuccessModal" class="modal">
+        <div class="modal-content success-modal">
+            <div class="success-icon">🗑️</div>
+            <h3>¡Eliminación Exitosa!</h3>
+            <p>El estudiante ha sido eliminado del sistema correctamente.</p>
+            <button class="success-btn" onclick="closeDeleteSuccessModal()">Aceptar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,8 +1,8 @@
-# 🎓 Sistema SINJA v2.0
-## Sistema de Información para Nuevos Ingresos y Administración
+# 🎓 Sistema SINJA
+## Sistema de información para rastrear el nivel de estudiantes nuevos.
 
 ### 📋 Descripción
-Sistema web para gestión de estudiantes de la Universidad de Antioquia, Facultad de Ingeniería. Permite registrar, consultar y eliminar información de estudiantes con validación en tiempo real.
+Sistema web para gestión de estudiantes nuevos en la facultad de ingeniería en Universidad de Antioquia. Permite registrar, consultar y eliminar información de estudiantes.
 
 ### 🚀 Características
 - ✅ **Registro de estudiantes** con validación completa
@@ -18,9 +18,9 @@ Sistema web para gestión de estudiantes de la Universidad de Antioquia, Faculta
 ```
 frontend SINJA/
 ├── index.html      # Aplicación principal
-├── script.js       # Lógica de la aplicación (modular)
+├── consultas.html  
 ├── styles.css      # Estilos CSS responsivos
-├── db.json         # Base de datos de prueba (JSON Server)
+├── script.js       # Lógica de la aplicación (modular)
 └── README.md       # Esta documentación
 ```
 
@@ -30,32 +30,7 @@ frontend SINJA/
 - **Testing**: JSON Server (opcional)
 - **Arquitectura**: Modular con 7 namespaces
 
-### 🏃‍♂️ Cómo ejecutar
 
-#### Opción 1: Con Spring Boot (Producción)
-1. Ejecutar backend Spring Boot en puerto 8080
-2. Servir archivos frontend con cualquier servidor HTTP
-3. Abrir `index.html` en el navegador
-
-#### Opción 2: Con JSON Server (Testing)
-```bash
-# Instalar JSON Server
-npm install -g json-server
-
-# Ejecutar servidor de prueba
-json-server --watch db.json --port 8080
-
-# Servir frontend
-python3 -m http.server 3000
-```
-
-### 🔧 Configuración
-El sistema está configurado para conectarse a:
-- **Backend URL**: `http://localhost:8080`
-- **Endpoints**:
-  - `GET /search?id={id}` - Buscar estudiante
-  - `POST /save` - Guardar estudiante
-  - `DELETE /delete?id={id}` - Eliminar estudiante
 
 ### 🎯 Funcionalidades
 
@@ -66,18 +41,9 @@ El sistema está configurado para conectarse a:
 
 #### Consulta de Estudiantes  
 - Búsqueda por ID
+- Busqueda por campus
 - Visualización completa de datos
 - Opción de eliminación directa
-
-#### Sistema de Logs
-- Logs detallados en consola del navegador
-- Modo debug activable con `window.SINJA_DEBUG`
-- Seguimiento completo de operaciones
-
-### 👨‍💻 Desarrollado por
-**Universidad de Antioquia**  
-Facultad de Ingeniería  
-Sistema SINJA v2.0
 
 ### 📝 Notas
 - Requiere CORS habilitado en el backend
