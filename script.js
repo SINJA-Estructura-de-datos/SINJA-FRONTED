@@ -3,78 +3,21 @@
  * SISTEMA DE REGISTRO Y CONSULTA DE ESTUDIANTES SINJA
  * Universidad de Antioquia - Facultad de Ingeniería
  * ===============================================
- * 
- * FUNCIONALIDADES PRINCIPALES:
- * ✅ Registro de nuevos estudiantes con validación completa
- * ✅ Consulta de estudiantes existentes por ID
- * ✅ Validación en tiempo real de formularios
- * ✅ Eliminación de estudiantes (con confirmación)
- * ✅ Integración completa con API REST
- * ✅ Manejo de errores y estados de carga
- * ✅ Interfaz responsive y accesible
- * 
- * CONFIGURACIÓN ACTUAL: 🔧 SPRING BOOT
- * - Puerto: 8080
- * - URLs: query parameters (?id=123)
- * 
- * PARA CAMBIAR A JSON SERVER:
- * 1. Cambiar configuración en líneas 33-45
- * 2. Cambiar URLs en buscarEstudiantePorId() y eliminarEstudiantePorId()
- * 3. Puerto recomendado: 8081
- * 
- * ARQUITECTURA:
- * - Funciones auxiliares reutilizables para API
- * - Separación clara entre lógica de negocio y UI
- * - Sistema de validación modular
- * - Manejo centralizado de errores
- * 
- * @author Sistema SINJA
- * @version 2.0
- * @since 2025
- */
-
+ 
 // ===============================================
 // CONFIGURACIÓN GLOBAL DE LA APLICACIÓN
 // ===============================================
-
-// ===============================================
-// CONFIGURACIÓN DE API - SPRING BOOT (ACTIVA)
-// ===============================================
-
 /**
- * Configuración actual: SPRING BOOT
- * URL base del servidor Spring Boot
- * @constant {string}
+ * Para cambiar a Spring Boot, comenta la configuración de abajo
+ * y descomenta esta configuración:
  */
 const API_BASE_URL = 'http://localhost:8080';
-
-/**
- * Configuración de endpoints para Spring Boot
- * Utiliza query parameters: /endpoint?id=123
- * @constant {Object}
- */
 const API_ENDPOINTS = {
     SEARCH: '/search',    // GET /search?id=123
     SAVE: '/save',        // POST /save (body JSON)
-    DELETE: '/delete'     // DELETE /delete?id=123
+    DELETE: '/delete',   // DELETE /delete?id=123
+    CAMPUS_SEARCH: '/students/campus'  // GET /students/campus?campus=MEDELLIN
 };
-
-// ===============================================
-// CONFIGURACIÓN ALTERNATIVA - JSON SERVER (COMENTADA)
-// ===============================================
-
-/**
- * Para cambiar a JSON Server, comenta la configuración de arriba 
- * y descomenta esta configuración:
- * 
- * const API_BASE_URL = 'http://localhost:8081';
- * const API_ENDPOINTS = {
- *     SEARCH: '/student',      // GET /student/123
- *     SAVE: '/student',        // POST /student (body JSON)  
- *     DELETE: '/student'       // DELETE /student/123
- * };
- */
-
 
 /**
  * Configuración de timeouts y delays
@@ -468,17 +411,12 @@ const ApiService = {
         console.log('🔍 API: Buscando estudiante con ID:', normalizedId);
         
         try {
-            // SPRING BOOT: usa query parameters - GET /search?id=123
-            const url = `${API_BASE_URL}${API_ENDPOINTS.SEARCH}?id=${normalizedId}`;
+            const url = `${API_BASE_URL}${API_ENDPOINTS.SEARCH}?id=${normalizedId}`
+
             console.log('🌐 URL construida:', url);
             
             const response = await fetch(url);
-            
-            // PARA JSON SERVER: descomenta esta línea y comenta la de arriba
-            // const url = `${API_BASE_URL}${API_ENDPOINTS.SEARCH}/${normalizedId}`;  // GET /student/123
-            
-            console.log('📡 Status de búsqueda:', response.status);
-            
+                     
             console.log('📡 Status de búsqueda:', response.status);
             console.log('📡 Response OK:', response.ok);
             
@@ -525,9 +463,7 @@ const ApiService = {
             if (existingStudent) {
                 console.log('❌ Estudiante con este ID ya existe');
                 throw new Error('El registro ya existe en la base de datos');
-            }
-            
-            // SPRING BOOT: POST /save (body JSON)
+            }   
             const url = `${API_BASE_URL}${API_ENDPOINTS.SAVE}`;
             const response = await fetch(url, {
                 method: 'POST',
@@ -536,10 +472,7 @@ const ApiService = {
                 },
                 body: JSON.stringify(normalizedStudent)
             });
-            
-            // PARA JSON SERVER: funciona igual (POST /student con body JSON)
-            // No requiere cambios en esta función
-            
+          
             console.log('📡 Status del registro:', response.status);
             
             if (response.ok) {
@@ -567,15 +500,12 @@ const ApiService = {
         console.log('🗑️ API: Eliminando estudiante con ID:', id);
         
         try {
-            // SPRING BOOT: usa query parameters - DELETE /delete?id=123
+
             const url = `${API_BASE_URL}${API_ENDPOINTS.DELETE}?id=${id}`;
+            
             const response = await fetch(url, {
                 method: 'DELETE'
-            });
-            
-            // PARA JSON SERVER: descomenta esta línea y comenta la de arriba
-            // const url = `${API_BASE_URL}${API_ENDPOINTS.DELETE}/${id}`;  // DELETE /student/123
-            
+            });      
             console.log('📡 Status de eliminación:', response.status);
             
             if (response.ok) {
@@ -590,6 +520,38 @@ const ApiService = {
             console.error('❌ Error en eliminación:', fetchError);
             throw new Error(`Error al eliminar estudiante: ${fetchError.message}`);
         }
+    },
+
+    /**
+     * Busca todos los estudiantes de un campus específico
+     * @param {string} campus - Campus a buscar
+     * @returns {Promise<Array>} - Array de estudiantes del campus
+     * @throws {Error} - Si hay problemas de conexión
+     */
+    async buscarEstudiantesPorCampus(campus) {
+        console.log('🏫 API: Buscando estudiantes del campus:', campus);
+        
+        try {
+
+            const url = `${API_BASE_URL}${API_ENDPOINTS.CAMPUS_SEARCH}/${encodeURIComponent(campus)}`;
+            console.log('🌐 URL construida:', url);
+            
+            const response = await fetch(url);
+            console.log('📡 Status de búsqueda por campus:', response.status);
+            
+            if (response.ok) {
+                const students = await response.json();
+                console.log('✅ Estudiantes encontrados:', students);
+                return Array.isArray(students) ? students : [students];
+            } else {
+                const errorText = await response.text();
+                console.log('❌ Error del servidor:', errorText);
+                throw new Error(`Error al buscar estudiantes: ${response.status} - ${errorText}`);
+            }
+        } catch (fetchError) {
+            console.error('❌ Error en búsqueda por campus:', fetchError);
+            throw new Error(`Error al buscar estudiantes por campus: ${fetchError.message}`);
+        }
     }
 };
 
@@ -597,6 +559,7 @@ const ApiService = {
 const buscarEstudiantePorId = (id) => ApiService.buscarEstudiantePorId(id);
 const guardarEstudiante = (student) => ApiService.guardarEstudiante(student);
 const eliminarEstudiantePorId = (id) => ApiService.eliminarEstudiantePorId(id);
+const buscarEstudiantesPorCampus = (campus) => ApiService.buscarEstudiantesPorCampus(campus);
 
 // ===============================================
 // CONTROLADORES DE LÓGICA DE NEGOCIO
@@ -703,6 +666,40 @@ const StudentController = {
     },
 
     /**
+     * Maneja la búsqueda de estudiantes por campus
+     * @async
+     */
+    async handleCampusSearch() {
+        console.log('🏫 Iniciando búsqueda de estudiantes por campus...');
+        
+        const campus = document.getElementById('consultaCampus').value;
+        
+        // Validar campus seleccionado
+        if (!campus || campus.trim() === '') {
+            UiManager.showAlert('Por favor, seleccione un campus', 'error');
+            return;
+        }
+
+        try {
+            console.log('🔄 Mostrando loading...');
+            UiManager.showConsultaLoading(true);
+            
+            // Buscar estudiantes por campus
+            console.log('🚀 Llamando a ApiService.buscarEstudiantesPorCampus con campus:', campus);
+            const students = await ApiService.buscarEstudiantesPorCampus(campus);
+            
+            // Mostrar resultados
+            UiManager.showCampusResults(students, campus);
+            
+        } catch (error) {
+            console.error('❌ Error en búsqueda por campus:', error);
+            UiManager.showSearchError('Error al realizar la consulta. Verifique la conexión con el servidor.');
+        } finally {
+            UiManager.showConsultaLoading(false);
+        }
+    },
+
+    /**
      * Maneja la eliminación de un estudiante con confirmación
      * @param {number} id - ID del estudiante a eliminar
      * @async
@@ -740,7 +737,7 @@ const StudentController = {
         // Verificar tipos específicos de error
         if (error.name === 'TypeError' && error.message.includes('fetch')) {
             UiManager.showAlert(
-                '❌ No se puede conectar al servidor. Verifique que Spring Boot esté ejecutándose en puerto 8080', 
+                '❌ No se puede conectar al servidor. Verifique que JSON Server esté ejecutándose en puerto 8081', 
                 'error'
             );
         } else if (error.message.includes('CORS')) {
@@ -757,6 +754,7 @@ const StudentController = {
 // Crear aliases globales para compatibilidad con HTML
 const handleSubmit = (e) => StudentController.handleRegistration(e);
 const buscarPersona = () => StudentController.handleSearch();
+const buscarPorCampus = () => StudentController.handleCampusSearch();
 const eliminarEstudiante = (id) => StudentController.handleDeletion(id);
 
 // ===============================================
@@ -874,6 +872,52 @@ const UiManager = {
                 </div>
             </div>
         `;
+    },
+
+    /**
+     * Muestra los resultados de una búsqueda por campus
+     * @param {Array} students - Array de estudiantes encontrados
+     * @param {string} campus - Nombre del campus consultado
+     */
+    showCampusResults(students, campus) {
+        const resultadoDiv = document.getElementById('resultadoConsulta');
+        if (!resultadoDiv) return;
+        
+        if (!students || students.length === 0) {
+            console.log('❌ No se encontraron estudiantes en el campus:', campus);
+            resultadoDiv.innerHTML = `
+                <div class="error-alert">
+                    ❌ No se encontraron estudiantes en el campus ${campus}
+                </div>
+            `;
+            return;
+        }
+
+        console.log(`✅ Mostrando ${students.length} estudiantes del campus ${campus}`);
+        
+        let studentsHtml = `
+            <div class="campus-results">
+                <h4>🏫 Estudiantes del Campus ${campus}</h4>
+                <p class="results-count">Total: ${students.length} estudiante(s)</p>
+        `;
+        
+        students.forEach((student, index) => {
+            studentsHtml += `
+                <div class="student-list-item">
+                    <div class="student-header">
+                        <span class="student-number">#${index + 1}</span>
+                        <span class="student-id">ID: ${student.id}</span>
+                    </div>
+                    <div class="student-info">
+                        <strong>${student.name} ${student.lastName}</strong> - ${student.degree}<br>
+                        <small>Lugar: ${student.bornPlace} | Puntaje: ${student.scoreAdmision}</small>
+                    </div>
+                </div>
+            `;
+        });
+        
+        studentsHtml += `</div>`;
+        resultadoDiv.innerHTML = studentsHtml;
     },
 
     /**
@@ -1033,18 +1077,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Mostrar información de la aplicación en consola
         console.log(`
-        ╔══════════════════════════════════════╗
-        ║     SISTEMA SINJA v2.0 CARGADO      ║
-        ║                                      ║
-        ║  ✅ Validación en tiempo real        ║
-        ║  ✅ Gestión completa de estudiantes  ║
-        ║  ✅ API REST integrada              ║
-        ║  ✅ Interfaz responsive             ║
-        ║  ✅ Manejo de errores centralizado   ║
-        ║                                      ║
-        ║  Universidad De Antioquia            ║
-        ║  Facultad de Ingeniería             ║
-        ╚══════════════════════════════════════╝
+            SISTEMA SINJA   
         `);
         
     } catch (error) {
@@ -1096,46 +1129,4 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
     };
     
     console.log('🛠️ Modo desarrollo activado. Use window.SINJA_DEBUG para debugging');
-}
-
-/**
- * ===============================================
- * FIN DEL ARCHIVO - SISTEMA SINJA v2.0
- * ===============================================
- * 
- * RESUMEN DE LA ARQUITECTURA:
- * 
- * 📁 CONFIGURACIÓN GLOBAL
- *    └── API_BASE_URL, API_ENDPOINTS, CONFIG
- * 
- * 🔍 VALIDACIÓN
- *    └── validators (funciones puras)
- * 
- * 🧭 NAVEGACIÓN
- *    └── Navigation (control de vistas)
- * 
- * 📝 FORMULARIOS
- *    └── FormManager (validación y extracción de datos)
- * 
- * 🌐 API
- *    └── ApiService (comunicación con backend)
- * 
- * 🎮 CONTROLADORES
- *    └── StudentController (lógica de negocio)
- * 
- * 🎨 INTERFAZ
- *    └── UiManager (gestión visual)
- * 
- * ⚙️ INICIALIZACIÓN
- *    └── AppInitializer (configuración de eventos)
- * 
- * BENEFICIOS DE ESTA ARQUITECTURA:
- * ✅ Separación clara de responsabilidades
- * ✅ Código modular y reutilizable
- * ✅ Fácil mantenimiento y testing
- * ✅ Manejo centralizado de errores
- * ✅ Logs detallados para debugging
- * ✅ Compatibilidad hacia atrás mantenida
- * 
- * ===============================================
- */
+};

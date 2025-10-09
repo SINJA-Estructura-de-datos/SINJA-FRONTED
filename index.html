@@ -21,7 +21,7 @@
                     <button class="main-btn" onclick="showRegistroForm()">
                         📝 REGISTRO
                     </button>
-                    <button class="main-btn" onclick="showConsultaModal()">
+                    <button class="main-btn" onclick="window.location.href='consulta.html'">
                         🔍 CONSULTAR
                     </button>
                 </div>
@@ -122,23 +122,6 @@
         </div>
     </div>
 
-    <!-- Modal de Consulta -->
-    <div id="consultaModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h3>Consultar Estudiante</h3>
-            <input type="text" id="consultaId" placeholder="Ingrese el ID a buscar">
-            <button class="submit-btn" onclick="buscarPersona()">🔍 BUSCAR</button>
-            
-            <div class="loading" id="consultaLoading">
-                <div class="spinner"></div>
-                <p>Buscando...</p>
-            </div>
-            
-            <div id="resultadoConsulta"></div>
-        </div>
-    </div>
-
     <!-- Modal de Éxito de Registro -->
     <div id="successModal" class="modal">
         <div class="modal-content success-modal">
@@ -146,16 +129,6 @@
             <h3>¡Registro Exitoso!</h3>
             <p>El estudiante ha sido registrado correctamente en el sistema.</p>
             <button class="success-btn" onclick="closeSuccessModal()">Aceptar</button>
-        </div>
-    </div>
-
-    <!-- Modal de Éxito de Eliminación -->
-    <div id="deleteSuccessModal" class="modal">
-        <div class="modal-content success-modal">
-            <div class="success-icon">🗑️</div>
-            <h3>¡Eliminación Exitosa!</h3>
-            <p>El estudiante ha sido eliminado del sistema correctamente.</p>
-            <button class="success-btn" onclick="closeDeleteSuccessModal()">Aceptar</button>
         </div>
     </div>
 

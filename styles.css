@@ -294,6 +294,47 @@ body {
 }
 
 /* ================================
+   SECCIONES DE BÚSQUEDA EN MODAL
+   ================================ */
+.search-section {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border-left: 4px solid #BAFF39;
+}
+
+.search-section h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.search-section input,
+.search-section select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 1em;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.search-section input:focus,
+.search-section select:focus {
+    outline: none;
+    border-color: #BAFF39;
+    box-shadow: 0 0 0 3px rgba(186, 255, 57, 0.1);
+}
+
+.search-section .submit-btn {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+/* ================================
    ESTADOS DE CARGA
    ================================ */
 .loading {
@@ -618,6 +659,143 @@ body {
         transform: scale(1);
         opacity: 1;
     }
+}
+
+/* ================================
+   RESULTADOS DE BÚSQUEDA POR CAMPUS
+   ================================ */
+.campus-results {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.campus-results h4 {
+    color: #28a745;
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #28a745;
+}
+
+.results-count {
+    text-align: center;
+    color: #6c757d;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+.student-list-item {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #BAFF39;
+    transition: all 0.3s ease;
+}
+
+.student-list-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.student-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.student-number {
+    background: #BAFF39;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.student-id {
+    color: #6c757d;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.student-info {
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.student-info strong {
+    color: #2c3e50;
+    font-size: 1.1em;
+}
+
+.student-info small {
+    color: #6c757d;
+    display: block;
+    margin-top: 4px;
+}
+
+.student-actions {
+    text-align: right;
+}
+
+.btn-small {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-small:hover {
+    background: #c0392b;
+    transform: scale(1.1);
+}
+
+/* ================================
+   ESTILOS PARA PÁGINA DE CONSULTA
+   ================================ */
+.consulta-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.consulta-content .search-section {
+    margin-bottom: 30px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 25px;
+    border-left: 4px solid #BAFF39;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.consulta-content .search-section h4 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: 600;
+    text-align: center;
+}
+
+.consulta-content .search-section input,
+.consulta-content .search-section select {
+    margin-bottom: 15px;
+}
+
+.consulta-content .submit-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1em;
 }
 
 /* ================================
