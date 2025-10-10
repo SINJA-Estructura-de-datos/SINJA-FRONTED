@@ -16,7 +16,7 @@ const API_ENDPOINTS = {
     SEARCH: '/search',    // GET /search?id=123
     SAVE: '/save',        // POST /save (body JSON)
     DELETE: '/delete',   // DELETE /delete?id=123
-    CAMPUS_SEARCH: '/students/campus'  // GET /students/campus?campus=MEDELLIN
+    CAMPUS_SEARCH: '/search/campus'  // GET /students/campus?campus=MEDELLIN
 };
 
 /**
@@ -533,7 +533,7 @@ const ApiService = {
         
         try {
 
-            const url = `${API_BASE_URL}${API_ENDPOINTS.CAMPUS_SEARCH}/${encodeURIComponent(campus)}`;
+            const url = `${API_BASE_URL}${API_ENDPOINTS.CAMPUS_SEARCH}?campusUdea=${campus}`;
             console.log('🌐 URL construida:', url);
             
             const response = await fetch(url);
