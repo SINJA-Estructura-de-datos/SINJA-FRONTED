@@ -47,6 +47,14 @@
                         <option value="SANTA_FE_ANTIOQUIA">Santa Fe de Antioquia</option>
                         <option value="TURBO">Turbo</option>
                     </select>
+                    <div class="sort-controls" style="margin-top: 10px;">
+                        <label for="sortBy" style="font-size: 14px; margin-right: 10px;">Ordenar por:</label>
+                        <select id="sortBy" style="padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                            <option value="default">Sin ordenar</option>
+                            <option value="lastName">Apellido</option>
+                            <option value="degree">Carrera</option>
+                        </select>
+                    </div>
                     <button class="submit-btn" onclick="buscarPorCampus()" style="background: #27ae60;">📋 CONSULTAR</button>
                 </div>
 
@@ -59,7 +67,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Modal de Éxito de Eliminación -->
     <div id="deleteSuccessModal" class="modal">
         <div class="modal-content success-modal">

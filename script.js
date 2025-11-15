@@ -673,6 +673,9 @@ const StudentController = {
         console.log('🏫 Iniciando búsqueda de estudiantes por campus...');
         
         const campus = document.getElementById('consultaCampus').value;
+        const sortBy = document.getElementById('sortBy').value;
+        
+        console.log('📊 Valores obtenidos:', { campus, sortBy });
         
         // Validar campus seleccionado
         if (!campus || campus.trim() === '') {
@@ -686,10 +689,27 @@ const StudentController = {
             
             // Buscar estudiantes por campus
             console.log('🚀 Llamando a ApiService.buscarEstudiantesPorCampus con campus:', campus);
-            const students = await ApiService.buscarEstudiantesPorCampus(campus);
+            let students = await ApiService.buscarEstudiantesPorCampus(campus);
+            
+            console.log('📋 Estudiantes obtenidos de la API:', students);
+            console.log('📊 Tipo de dato:', Array.isArray(students) ? 'Array' : typeof students);
+            console.log('📊 Longitud:', students.length);
+            
+            // Aplicar ordenamiento si se seleccionó una opción
+            if (sortBy && sortBy !== 'default') {
+                console.log(`🔄 Aplicando ordenamiento por: ${sortBy}`);
+                students = this.sortStudents(students, sortBy);
+                console.log(`✅ Estudiantes ordenados por: ${sortBy}`);
+                console.log('📋 Estudiantes después del ordenamiento:', students);
+                
+                // Mostrar alerta temporal para confirmar ordenamiento
+                UiManager.showAlert(`Resultados ordenados por ${sortBy === 'lastName' ? 'apellido' : 'carrera'}`, 'success');
+            } else {
+                console.log('ℹ️ No se aplicó ordenamiento (sortBy es default o vacío)');
+            }
             
             // Mostrar resultados
-            UiManager.showCampusResults(students, campus);
+            UiManager.showCampusResults(students, campus, sortBy);
             
         } catch (error) {
             console.error('❌ Error en búsqueda por campus:', error);
@@ -697,6 +717,55 @@ const StudentController = {
         } finally {
             UiManager.showConsultaLoading(false);
         }
+    },
+
+    /**
+     * Ordena un array de estudiantes según el criterio especificado
+     * @param {Array} students - Array de estudiantes a ordenar
+     * @param {string} sortBy - Criterio de ordenamiento ('lastName' o 'degree')
+     * @returns {Array} - Array ordenado
+     */
+    sortStudents(students, sortBy) {
+        console.log(`🔄 Ordenando ${students.length} estudiantes por: ${sortBy}`);
+        console.log('📋 Array original:', students.map(s => ({ name: s.name, lastName: s.lastName, degree: s.degree })));
+        
+        // Crear una copia del array para no modificar el original
+        const studentsCopy = [...students];
+        console.log('📋 Copia creada:', studentsCopy.length, 'estudiantes');
+        
+        const sorted = studentsCopy.sort((a, b) => {
+            let valueA, valueB;
+            
+            switch (sortBy) {
+                case 'lastName':
+                    valueA = (a.lastName || '').toLowerCase();
+                    valueB = (b.lastName || '').toLowerCase();
+                    console.log(`🔤 Comparando apellidos: "${valueA}" vs "${valueB}"`);
+                    break;
+                case 'degree':
+                    valueA = (a.degree || '').toLowerCase();
+                    valueB = (b.degree || '').toLowerCase();
+                    console.log(`🎓 Comparando carreras: "${valueA}" vs "${valueB}"`);
+                    break;
+                default:
+                    console.log('⚠️ Criterio de ordenamiento no reconocido');
+                    return 0; // Sin cambios
+            }
+            
+            if (valueA < valueB) {
+                console.log(`⬅️ "${valueA}" viene antes que "${valueB}"`);
+                return -1;
+            }
+            if (valueA > valueB) {
+                console.log(`➡️ "${valueA}" viene después que "${valueB}"`);
+                return 1;
+            }
+            console.log(`⚖️ "${valueA}" y "${valueB}" son iguales`);
+            return 0;
+        });
+        
+        console.log('📋 Array ordenado:', sorted.map(s => ({ name: s.name, lastName: s.lastName, degree: s.degree })));
+        return sorted;
     },
 
     /**
@@ -874,12 +943,13 @@ const UiManager = {
         `;
     },
 
-    /**
+   /**
      * Muestra los resultados de una búsqueda por campus
      * @param {Array} students - Array de estudiantes encontrados
      * @param {string} campus - Nombre del campus consultado
+     * @param {string} sortBy - Criterio de ordenamiento aplicado
      */
-    showCampusResults(students, campus) {
+    showCampusResults(students, campus, sortBy = 'default') {
         const resultadoDiv = document.getElementById('resultadoConsulta');
         if (!resultadoDiv) return;
         
@@ -895,9 +965,17 @@ const UiManager = {
 
         console.log(`✅ Mostrando ${students.length} estudiantes del campus ${campus}`);
         
+        // Determinar el texto de ordenamiento
+        let sortText = '';
+        if (sortBy === 'lastName') {
+            sortText = ' (ordenado por apellido)';
+        } else if (sortBy === 'degree') {
+            sortText = ' (ordenado por carrera)';
+        }
+        
         let studentsHtml = `
             <div class="campus-results">
-                <h4>🏫 Estudiantes del Campus ${campus}</h4>
+                <h4>🏫 Estudiantes del Campus ${campus}${sortText}</h4>
                 <p class="results-count">Total: ${students.length} estudiante(s)</p>
         `;
         
